@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Code } from 'lucide-react';
+import Image from 'next/image';
 
 interface TechIconProps {
   logoKey: string;
@@ -34,7 +35,7 @@ export function TechIcon({ logoKey, name, className = "h-5 w-5" }: TechIconProps
   }
   
   return (
-    <img 
+    <Image 
       src={getIconUrl()}
       alt={`${name} logo`}
       className={`${className} object-contain`}

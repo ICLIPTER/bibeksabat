@@ -14,7 +14,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
-const StarsCanvas = dynamic(() => import("@/components/star-background").then(mod => mod.StarsCanvas), { ssr: false });
 const BlackHoleVideo = dynamic(() => import("@/components/black-hole-video").then(mod => mod.BlackHoleVideo), { ssr: false });
 
 const fontSans = FontSans({

@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Bibek Sabat | Full Stack Developer",
   description: "Full Stack Developer, Game Developer, 2D & 3D Artist, Animator & Machine Learning Enthusiast with expertise in Next.js, React, and blockchain technologies.",
-  metadataBase: new URL("https://achyutkatiyar.com"),
+  metadataBase: new URL("https://bibeksabat.vercel.app/"),
   
   // Basic metadata
   applicationName: "Bibek Sabat Portfolio",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   
   openGraph: {
     type: "website",
-    url: "https://achyutkatiyar.com",
+    url: "https://bibeksabat.vercel.app/",
     title: "Bibek Sabat | Full Stack Developer",
     description: "Full Stack Developer, Game Developer, 2D & 3D Artist, Animator & Machine Learning Enthusiast with expertise in Next.js, React, and blockchain technologies.",
     siteName: "Bibek Sabat",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   
   alternates: {
-    canonical: "https://achyutkatiyar.com",
+    canonical: "https://bibeksabat.vercel.app/",
   },
 };
 

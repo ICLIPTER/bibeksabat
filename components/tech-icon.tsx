@@ -38,6 +38,8 @@ export function TechIcon({ logoKey, name, className = "h-5 w-5" }: TechIconProps
     <Image 
       src={getIconUrl()}
       alt={`${name} logo`}
+      width={32}
+      height={32}
       className={`${className} object-contain`}
       onError={(e) => {
         const target = e.currentTarget;

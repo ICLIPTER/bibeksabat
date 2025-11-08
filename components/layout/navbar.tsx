@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
@@ -129,7 +129,7 @@ export function Navbar() {
             <ThreeDCard className="w-full">
               <div className="flex items-center justify-between">
                 {/* Logo */}
-                <div className="w-[160px]">
+                <div className="w-40">
                   <Link
                     href="/"
                     className="font-display text-xl font-bold transition-colors hover:text-primary"
@@ -175,7 +175,7 @@ export function Navbar() {
                 </div>
 
                 {/* Theme toggle */}
-                <div className="w-[160px] flex justify-end">
+                <div className="w-40 flex justify-end">
                   <motion.div
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -187,35 +187,39 @@ export function Navbar() {
 
                 {/* Mobile Navigation */}
                 <Sheet>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5, type: "spring" }}
-                    className="md:hidden ml-4"
-                  >
-                    <SheetTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full bg-muted/50"
-                      >
-                        <Menu className="h-6 w-6" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </SheetTrigger>
-                  </motion.div>
-
-                  <SheetContent side="right" className="p-0">
-                    <div className="flex flex-col h-full">
-                      <div className="p-6 flex justify-between items-center">
-                        <Link
-                          href="/"
-                          className="font-display text-2xl font-bold transition-colors hover:text-primary"
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5, type: "spring" }}
+                      className="md:hidden ml-4"
+                    >
+                      <SheetTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="rounded-full bg-muted/50"
                         >
-                          Bibek Sabat
-                        </Link>
-                        <ThemeSwitch />
-                      </div>
+                          <Menu className="h-6 w-6" />
+                          <span className="sr-only">Toggle menu</span>
+                        </Button>
+                      </SheetTrigger>
+                    </motion.div>
+
+                    <SheetContent side="right" className="p-0">
+                      <SheetHeader>
+                        {/* Use visually hidden title for accessibility */}
+                        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                        <div className="flex justify-between items-center w-full">
+                          <Link
+                            href="/"
+                            className="font-display text-2xl font-bold transition-colors hover:text-primary"
+                          >
+                            Bibek Sabat
+                          </Link>
+                          <ThemeSwitch />
+                        </div>
+                      </SheetHeader>
+
                       <div className="flex-1 px-6 py-8">
                         <ul className="flex flex-col gap-1">
                           {navItems.map((item, i) => (
@@ -241,9 +245,8 @@ export function Navbar() {
                           ))}
                         </ul>
                       </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
+                    </SheetContent>
+                  </Sheet>
               </div>
             </ThreeDCard>
           </motion.header>

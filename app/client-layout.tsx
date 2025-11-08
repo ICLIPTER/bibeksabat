@@ -1,20 +1,24 @@
 "use client";
 
+import { ReactNode, useEffect, useState } from "react";
 import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { ScrollProgress } from "@/components/shared/scroll-progress";
-import { SmoothScrollProvider } from "@/components/shared/smooth-scroll-provider";
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { motion, AnimatePresence, TargetAndTransition, Easing } from "framer-motion";
 
-const BlackHoleVideo = dynamic(() => import("@/components/black-hole-video").then(mod => mod.BlackHoleVideo), { ssr: false });
+// Client-only dynamic import
+const BlackHoleVideo = dynamic(
+  () => import("@/components/black-hole-video").then((mod) => mod.BlackHoleVideo),
+  { ssr: false }
+);
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -23,35 +27,78 @@ const fontSans = FontSans({
 
 const fontDisplay = localFont({
   src: [
-    {
-      path: "../public/fonts/Satoshi-Regular.woff2",
-      weight: "400", 
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Satoshi-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Satoshi-Bold.woff2",
-      weight: "700",
-      style: "normal", 
-    },
+    { path: "../public/fonts/Satoshi-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/Satoshi-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/Satoshi-Bold.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-display",
 });
 
-export function ClientLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+// SmoothScrollProvider
+interface SmoothScrollProviderProps {
+  children: ReactNode;
+}
+
+// easing for animations
+const easeInOut: Easing = [0.42, 0, 0.58, 1];
+
+// page transition variants
+const pageVariants: { [key: string]: TargetAndTransition } = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.3, ease: easeInOut } },
+  exit: { opacity: 0, transition: { duration: 0.2, ease: easeInOut } },
+};
+
+function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
+  const [pathname, setPathname] = useState("");
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
+    setPathname(window.location.pathname);
+
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("in-view");
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    const scrollElements = document.querySelectorAll("[data-scroll]");
+    scrollElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      document.documentElement.style.scrollBehavior = "";
+      scrollElements.forEach((el) => observer.unobserve(el));
+    };
   }, []);
+
+  if (!mounted) return null; // only render on client
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={false} // ✅ prevents hydration mismatch
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// ClientLayout
+export function ClientLayout({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -62,30 +109,23 @@ export function ClientLayout({
           fontDisplay.variable
         )}
       >
-        <ThemeProvider
-          attribute="class" 
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {mounted && (
             <>
               <BlackHoleVideo />
+              <SmoothScrollProvider>
+                <div className="relative flex min-h-screen flex-col">
+                  <Navbar />
+                  <main className="flex-1 pt-16">{children}</main>
+                  <Footer />
+                </div>
+                <ScrollToTop />
+                <ScrollProgress />
+                <SpeedInsights />
+                <Analytics />
+              </SmoothScrollProvider>
             </>
           )}
-          <SmoothScrollProvider>
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
-              <main className="flex-1 pt-16">
-                {children}
-              </main>
-              <Footer />
-            </div>
-            <ScrollToTop />
-            <ScrollProgress />
-            <SpeedInsights/>
-            <Analytics />
-          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -20,15 +20,15 @@ const testimonials: Testimonial[] = [
     id: "routray",
     name: "Jajnadatta Routray",
     position: "Strategic professional with strong business acumen",
-    relation: "Senior Manager",
+    relation: "Senior Manager - Mentech",
     date: "July 1, 2022",
     quote: "Bibek has consistently demonstrated a strong work ethic, technical proficiency, and exceptional leadership skills throughout his tenure. As an enployee, Bibek played a pivotal role in organizing and executing various tasks."
   },
   {
     id: "choubey",
     name: "Tarkeswar Choubey",
-    position: "Associate Director Student Affairs SRM AP",
-    relation: " Sr.Developer",
+    position: "Human Resourse Affairs ",
+    relation: " Hr & Admin - Mentech",
     date: "May 23, 2023",
     quote: "I am pleased to recommend Bibek for his exceptional technical and leadership skills. As a Technical Executive, he oversaw technical operations using advanced methodologies to achieve project milestones and foster innovation."
   }

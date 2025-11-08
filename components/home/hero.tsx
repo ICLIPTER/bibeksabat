@@ -106,9 +106,7 @@ export function Hero() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="max-w-[600px] text-muted-foreground md:text-xl"
               >
-                A passionate developer with expertise in Next.js, React, Tailwind CSS,
-                and blockchain technologies. Currently pursuing a Master&apos;s in Computer Science
-                at Northeastern University.
+                Multidisciplinary creator specializing in Full Stack Development, Game Development, 3D Art, Animation, Graphic Design, Character & Environment Design, and Blockchain. Passionate about building innovative applications, immersive experiences, and exploring decentralized systems.
               </motion.p>
             </div>
             

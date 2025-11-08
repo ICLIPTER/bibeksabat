@@ -131,20 +131,19 @@ export function Footer() {
           </div>
         </div>
         
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 border-t pt-4"
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex justify-center items-center text-sm text-muted-foreground gap-1">
-              <Copyright className="mr-1 h-3.5 w-3.5" />
-              <span>{new Date().getFullYear()} Bibek Sabat. All rights reserved.</span>
-            </div>
-          </div>
-        </motion.div>
+       <motion.div 
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: 0.2 }}
+  className="mt-8 border-t pt-4"
+>
+  <div className="flex justify-center items-center text-sm text-muted-foreground gap-1">
+    <Copyright className="h-3.5 w-3.5" />
+    <span>{new Date().getFullYear()} Bibek Sabat. All rights reserved.</span>
+  </div>
+</motion.div>
+
       </motion.div>
     </footer>
   );
